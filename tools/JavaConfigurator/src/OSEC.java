@@ -551,6 +551,7 @@ public class OSEC extends JFrame {
 		contentPane.add(PAS_threshold);
 
 		JLabel lblAssistLevel = new JLabel("Assist Level 1");
+		lblAssistLevel.setForeground(Color.GRAY);
 		lblAssistLevel.setBounds(250, 90, 80, 14);
 		contentPane.add(lblAssistLevel);
 
@@ -561,6 +562,7 @@ public class OSEC extends JFrame {
 		contentPane.add(Assist_Level_1);
 
 		JLabel lblAssistLevel_1 = new JLabel("Assist Level 2");
+		lblAssistLevel_1.setForeground(Color.GRAY);
 		lblAssistLevel_1.setBounds(250, 110, 80, 14);
 		contentPane.add(lblAssistLevel_1);
 
@@ -571,6 +573,7 @@ public class OSEC extends JFrame {
 		contentPane.add(Assist_Level_2);
 
 		JLabel lblAssistLevel_2 = new JLabel("Assist Level 3");
+		lblAssistLevel_2.setForeground(Color.GRAY);
 		lblAssistLevel_2.setBounds(250, 130, 80, 14);
 		contentPane.add(lblAssistLevel_2);
 
@@ -581,6 +584,7 @@ public class OSEC extends JFrame {
 		contentPane.add(Assist_Level_3);
 
 		lblAssistLevel_3 = new JLabel("Assist Level 4");
+		lblAssistLevel_3.setForeground(Color.GRAY);
 		lblAssistLevel_3.setBounds(250, 150, 80, 14);
 		contentPane.add(lblAssistLevel_3);
 
@@ -591,6 +595,7 @@ public class OSEC extends JFrame {
 		contentPane.add(Assist_Level_4);
 
 		lblAssistLevel_4 = new JLabel("Assist Level 5");
+		lblAssistLevel_4.setForeground(Color.GRAY);
 		lblAssistLevel_4.setBounds(250, 170, 80, 14);
 		contentPane.add(lblAssistLevel_4);
 
@@ -601,6 +606,7 @@ public class OSEC extends JFrame {
 		contentPane.add(Assist_Level_5);
 
 		JLabel lblHallAngle4 = new JLabel("Hall angle 4");
+		lblHallAngle4.setForeground(Color.GRAY);
 		lblHallAngle4.setBounds(415, 90, 100, 14);
 		contentPane.add(lblHallAngle4);
 
@@ -611,6 +617,7 @@ public class OSEC extends JFrame {
 		contentPane.add(txtAngle4);
 
 		JLabel lblHallAngle6 = new JLabel("Hall angle 6");
+		lblHallAngle6.setForeground(Color.GRAY);
 		lblHallAngle6.setBounds(415, 110, 100, 14);
 		contentPane.add(lblHallAngle6);
 
@@ -621,6 +628,7 @@ public class OSEC extends JFrame {
 		contentPane.add(txtAngle6);
 
 		JLabel lblHallAngle2 = new JLabel("Hall angle 2");
+		lblHallAngle2.setForeground(Color.GRAY);
 		lblHallAngle2.setBounds(415, 130, 100, 14);
 		contentPane.add(lblHallAngle2);
 
@@ -631,6 +639,7 @@ public class OSEC extends JFrame {
 		contentPane.add(txtAngle2);
 
 		JLabel lblHallAngle3 = new JLabel("Hall angle 3");
+		lblHallAngle3.setForeground(Color.GRAY);
 		lblHallAngle3.setBounds(415, 150, 100, 14);
 		contentPane.add(lblHallAngle3);
 
@@ -641,6 +650,7 @@ public class OSEC extends JFrame {
 		contentPane.add(txtAngle3);
 
 		JLabel lblHallAngle1 = new JLabel("Hall angle 1");
+		lblHallAngle1.setForeground(Color.GRAY);
 		lblHallAngle1.setBounds(415, 170, 100, 14);
 		contentPane.add(lblHallAngle1);
 
@@ -651,6 +661,7 @@ public class OSEC extends JFrame {
 		contentPane.add(txtAngle1);
 
 		JLabel lblHallAngle5 = new JLabel("Hall angle 5");
+		lblHallAngle5.setForeground(Color.GRAY);
 		lblHallAngle5.setBounds(415, 190, 100, 14);
 		contentPane.add(lblHallAngle5);
 
