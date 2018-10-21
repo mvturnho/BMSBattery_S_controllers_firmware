@@ -84,10 +84,12 @@ typedef enum {
 
 	CODE_SUM_TORQUE = ((uint8_t) 0xD0),
 	CODE_SETPOINT = ((uint8_t) 0xD1),
-	CODE_SETPOINT_STATE = ((uint8_t) 0xD2),
+			
+	CODE_SETPOINT_STATE_HIGH_BYTE = ((uint8_t) 0xD2),
+	CODE_SETPOINT_STATE = ((uint8_t) 0xD3),
 
-	CODE_CURRENT_RAMP_HIGH_BYTE = ((uint8_t) 0xD3),
-	CODE_CURRENT_RAMP = ((uint8_t) 0xD4),
+	CODE_CURRENT_RAMP_HIGH_BYTE = ((uint8_t) 0xD4),
+	CODE_CURRENT_RAMP = ((uint8_t) 0xD5),
 
 
 	CODE_PAS_COUNTER_HIGH_BYTE = ((uint8_t) 0xD6),
@@ -139,6 +141,11 @@ typedef enum {
 	CODE_VAR_DEBUG_A = ((uint8_t) 0x9A),
 	CODE_VAR_DEBUG_B = ((uint8_t) 0x9B),
 	CODE_VAR_DEBUG_C = ((uint8_t) 0x9C),
+			
+	CODE_ACA_EXPERIMENTAL_FLAGS_HIGH_BYTE = ((uint8_t) 0x9D),
+	CODE_ACA_EXPERIMENTAL_FLAGS = ((uint8_t) 0x9E),
+			
+	CODE_MOTOR_CONSTANT = ((uint8_t) 0x9F),
 
 	CODE_60_DEG_PWM_CYCLES = ((uint8_t) 0x08),
 	CODE_HALL_ORDER_BASE = ((uint8_t) 0x10),

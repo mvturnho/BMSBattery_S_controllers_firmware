@@ -25,7 +25,7 @@ extern uint32_t uint32_icc_signals; // inter component communication, very simpl
 
 extern uint8_t ui8_throttle_min_range;
 extern uint8_t ui8_throttle_max_range;
-extern uint8_t ui8_control_state;
+extern uint16_t ui16_control_state;
 extern uint8_t ui8_a_s_assistlevels[6];
 extern uint8_t ui8_assist_percent_actual;
 extern uint8_t ui8_assist_percent_wanted;
@@ -88,6 +88,7 @@ extern uint16_t ui16_time_ticks_between_speed_interrupt; //Speed duration of one
 extern uint8_t ui8_offroad_counter;
 
 extern uint16_t ui16_aca_flags;
+extern uint16_t ui16_aca_experimental_flags;
 
 extern uint16_t ui16_torque[NUMBER_OF_PAS_MAGS];
 extern uint8_t ui8_torque_index;
@@ -106,6 +107,7 @@ extern float flt_torquesensorCalibration;
 extern float flt_s_pas_threshold;
 extern float flt_s_pid_gain_p;
 extern float flt_s_pid_gain_i;
+extern float flt_s_motor_constant;
 extern uint16_t ui16_s_ramp_end;
 extern uint16_t ui16_s_ramp_start;
 extern uint8_t ui8_s_motor_angle;
@@ -127,7 +129,6 @@ typedef enum {
 } ICC_SIGNALS;
 
 typedef enum {
-	// values from 0-31 are allowed as signals are stored in a single uint32_t
 	ASSIST_LVL_AFFECTS_THROTTLE = ((uint16_t) 1),
 	OFFROAD_ENABLED = ((uint16_t) 2),
 	BRAKE_DISABLES_OFFROAD = ((uint16_t) 4),
@@ -142,11 +143,18 @@ typedef enum {
 	BYPASS_LOW_SPEED_REGEN_PI_CONTROL = ((uint16_t) 256),
 
 	DYNAMIC_ASSIST_LEVEL = ((uint16_t) 512),
-	PWM_AUTO_OFF = ((uint16_t) 1024),
-			
+	
 	TQ_SENSOR_MODE = ((uint16_t) 2048),
 	ANGLE_CORRECTION_ENABLED = ((uint16_t) 4096)
 } ACA_FLAGS;
+
+typedef enum {
+
+	DC_STATIC_ZERO = ((uint16_t) 1),
+	DUMMY_EXP_ALWAYS_ON = ((uint16_t) 128),
+	PWM_AUTO_OFF = ((uint16_t) 1024),
+			
+} ACA_EXPERIMENTAL_FLAGS;
 
 #endif /* BOCONTROLLERSTATE_H */
 
