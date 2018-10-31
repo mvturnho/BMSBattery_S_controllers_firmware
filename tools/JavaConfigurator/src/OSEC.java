@@ -78,7 +78,6 @@ public class OSEC extends JFrame {
 	private JTextField batteryVoltageCalib;
 	private JLabel lblThrottleMax;
 	private JTextField txtThrottlemax;
-	private JButton lblHttpsopensourceebikefirmwarebitbucketio;
 	private JLabel lblOpenSourceFirmware;
 	private JButton btnWriteConfiguration;
 	private JTextField txtMaxbatterycurrent;
@@ -150,7 +149,7 @@ public class OSEC extends JFrame {
 	private JTextField txtCorrectionAtAngle;
 	private JRadioButton rdbtnNodisplay;
 
-	private File settingsDir;
+	private File experimentalSettingsDir;
 	private File lastSettingsFile = null;
 
 	/**
@@ -323,15 +322,20 @@ public class OSEC extends JFrame {
 		lblTollesProgramm.setBounds(114, 11, 326, 34);
 		contentPane.add(lblTollesProgramm);
 
-		settingsDir = new File(Paths.get(".").toAbsolutePath().normalize().toString());
-		while (!Arrays.asList(settingsDir.list()).contains("experimental settings")) {
-			settingsDir = settingsDir.getParentFile();
+		experimentalSettingsDir = new File(Paths.get(".").toAbsolutePath().normalize().toString());
+		while (!Arrays.asList(experimentalSettingsDir.list()).contains("experimental settings")) {
+			experimentalSettingsDir = experimentalSettingsDir.getParentFile();
 		}
-		settingsDir = new File(settingsDir.getAbsolutePath() + File.separator + "experimental settings");
-
-		DefaultListModel settingsFilesModel = new DefaultListModel();
-		for (File file : settingsDir.listFiles()) {
-			settingsFilesModel.addElement(new FileContainer(file));
+		File provenSettingsDir = new File(experimentalSettingsDir.getAbsolutePath() + File.separator + "proven settings");
+		experimentalSettingsDir = new File(experimentalSettingsDir.getAbsolutePath() + File.separator + "experimental settings");
+		
+		DefaultListModel provenSettingsFilesModel = new DefaultListModel();
+		DefaultListModel experimentalSettingsFilesModel = new DefaultListModel();
+		for (File file : experimentalSettingsDir.listFiles()) {
+			experimentalSettingsFilesModel.addElement(new FileContainer(file));
+		}
+		for (File file : provenSettingsDir.listFiles()) {
+			provenSettingsFilesModel.addElement(new FileContainer(file));
 
 			if (lastSettingsFile == null) {
 				lastSettingsFile = file;
@@ -340,30 +344,61 @@ public class OSEC extends JFrame {
 					lastSettingsFile = file;
 				}
 			}
-
 		}
+		
+		JLabel lblES = new JLabel("Proven Settings");
+		lblES.setBounds(600, 85, 320, 20);
+		contentPane.add(lblES);
+		JLabel lblPS = new JLabel("Experimental Settings");
+		lblPS.setBounds(600, 235, 320, 20);
+		contentPane.add(lblPS);
+		
+		JList provenSettingsList = new JList(provenSettingsFilesModel);
+		provenSettingsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		provenSettingsList.setLayoutOrientation(JList.VERTICAL);
+		provenSettingsList.setVisibleRowCount(-1);
 
-		JList settingsList = new JList(settingsFilesModel);
-		settingsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		settingsList.setLayoutOrientation(JList.VERTICAL);
-		settingsList.setVisibleRowCount(-1);
+		JScrollPane provenListScroller = new JScrollPane(provenSettingsList);
+		provenListScroller.setPreferredSize(new Dimension(280, 120));
+		provenListScroller.setBounds(600, 105, 320, 130);
+		contentPane.add(provenListScroller);
 
-		JScrollPane listScroller = new JScrollPane(settingsList);
-		listScroller.setPreferredSize(new Dimension(280, 280));
-		listScroller.setBounds(600, 90, 320, 280);
-		contentPane.add(listScroller);
+		JList experimentalSettingsList = new JList(experimentalSettingsFilesModel);
+		experimentalSettingsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		experimentalSettingsList.setLayoutOrientation(JList.VERTICAL);
+		experimentalSettingsList.setVisibleRowCount(-1);
 
-		settingsList.addMouseListener(new MouseAdapter() {
+		JScrollPane expListScroller = new JScrollPane(experimentalSettingsList);
+		expListScroller.setPreferredSize(new Dimension(280, 120));
+		expListScroller.setBounds(600, 255, 320, 140);
+		contentPane.add(expListScroller);
+		
+
+		provenSettingsList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					settingsList.getSelectedValue();
-					loadSettings(((FileContainer) settingsList.getSelectedValue()).file);
-					settingsList.clearSelection();
+					provenSettingsList.getSelectedValue();
+					loadSettings(((FileContainer) provenSettingsList.getSelectedValue()).file);
+					provenSettingsList.clearSelection();
 				} catch (IOException ex) {
 					Logger.getLogger(OSEC.class.getName()).log(Level.SEVERE, null, ex);
 				}
-				settingsList.clearSelection();
+				provenSettingsList.clearSelection();
+				updateDependiencies();
+			}
+		});
+		experimentalSettingsList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					experimentalSettingsList.getSelectedValue();
+					loadSettings(((FileContainer) experimentalSettingsList.getSelectedValue()).file);
+					experimentalSettingsList.clearSelection();
+				} catch (IOException ex) {
+					Logger.getLogger(OSEC.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				experimentalSettingsList.clearSelection();
 				updateDependiencies();
 			}
 		});
@@ -683,7 +718,7 @@ public class OSEC extends JFrame {
 		contentPane.add(lblCorrectionAtAngle);
 
 		txtCorrectionAtAngle = new JTextField();
-		txtCorrectionAtAngle.setText("85");
+		txtCorrectionAtAngle.setText("127");
 		txtCorrectionAtAngle.setColumns(10);
 		txtCorrectionAtAngle.setBounds(530, 210, 50, 20);
 		contentPane.add(txtCorrectionAtAngle);
@@ -733,27 +768,33 @@ public class OSEC extends JFrame {
 		Morse_Time_3.setBounds(350, 230, 50, 20);
 		contentPane.add(Morse_Time_3);
 
-		lblHttpsopensourceebikefirmwarebitbucketio = new JButton("https://opensourceebikefirmware.bitbucket.io/");
-		lblHttpsopensourceebikefirmwarebitbucketio.addActionListener(new ActionListener() {
+		JButton btnWiki = new JButton("Wiki Documentation");
+		btnWiki.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (Desktop.isDesktopSupported()) {
 					try {
-						try {
-							Desktop.getDesktop().browse(new URI("https://opensourceebikefirmware.bitbucket.io/"));
-						} catch (URISyntaxException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					} catch (IOException e) {
-						/* TODO: error handling */ }
-				} else {
-					/* TODO: error handling */ }
-
+						Desktop.getDesktop().browse(new URI("https://github.com/stancecoke/BMSBattery_S_controllers_firmware/wiki"));
+					} catch (Exception e) {}
+				} 
 			}
 		});
-		lblHttpsopensourceebikefirmwarebitbucketio.setForeground(Color.BLUE);
-		lblHttpsopensourceebikefirmwarebitbucketio.setBounds(600, 20, 320, 29);
-		contentPane.add(lblHttpsopensourceebikefirmwarebitbucketio);
+		btnWiki.setForeground(Color.BLUE);
+		btnWiki.setBounds(600, 20, 150, 29);
+		contentPane.add(btnWiki);
+		
+		JButton btnGit = new JButton("Git Repository");
+		btnGit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().browse(new URI("https://github.com/stancecoke/BMSBattery_S_controllers_firmware"));
+					} catch (Exception e) {}
+				} 
+			}
+		});
+		btnGit.setForeground(Color.BLUE);
+		btnGit.setBounds(770, 20, 150, 29);
+		contentPane.add(btnGit);
 
 		lblOpenSourceFirmware = new JLabel("Open Source Firmware for E-Bike Controller");
 		lblOpenSourceFirmware.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1029,8 +1070,8 @@ public class OSEC extends JFrame {
 					//FileWriter fw = new FileWriter("settings.ini");
 					//BufferedWriter bw = new BufferedWriter(fw);
 
-					File newFile = new File(settingsDir + File.separator + new SimpleDateFormat("yyyyMMdd-HHmmssz").format(new Date()) + ".ini");
-					settingsFilesModel.add(0, new FileContainer(newFile));
+					File newFile = new File(experimentalSettingsDir + File.separator + new SimpleDateFormat("yyyyMMdd-HHmmssz").format(new Date()) + ".ini");
+					experimentalSettingsFilesModel.add(0, new FileContainer(newFile));
 
 					iWriter = new PrintWriter(new BufferedWriter(new FileWriter(newFile)));
 					pWriter = new PrintWriter(new BufferedWriter(new FileWriter("config.h")));
@@ -1320,7 +1361,8 @@ public class OSEC extends JFrame {
 			} catch (Exception ex) {
 
 			}
-			settingsList.clearSelection();
+			provenSettingsList.clearSelection();
+			experimentalSettingsList.clearSelection();
 			updateDependiencies();
 		}
 	}
